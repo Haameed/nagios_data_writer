@@ -1,0 +1,19 @@
+[Unit]
+Description=Nagios data writer
+After=mod-gearman2-worker.target
+
+[Service]
+Type=simple
+PIDFile=/usr/local/nagios/nagios_data_writer.pid
+ExecStart=/usr/bin/python3.6 /usr/bin/data_writer.py
+ExecReload=/usr/bin/kill -HUP $MAINPID
+ExecStop=/usr/bin/kill -INT $MAINPID
+Restart=always
+KillMode=process
+TimeoutStopSec=5
+KillSignal=SIGINT
+User=nagios
+Group=nagios
+
+[Install]
+WantedBy=multi-user.target
